@@ -1,0 +1,78 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    networks:
+      - net
+
+  db:
+    image: postgres:15.2-alpine3.17
+    restart: always
+    expose:
+      - 5432
+    env_file:
+      - .env
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=netadmin@nida.ac.th
+      - PGADMIN_DEFAULT_PASSWORD=pgadmin
+    ports:
+      - 8081:80
+    networks:
+      - net
+  
+  django-app:
+    build: .
+    command: sh -c "chmod -x /app/migrate.sh && sh /app/migrate.sh && sh /app/entrypoint.sh"
+    volumes:
+      - staticfiles:/app/staticfiles
+    ports:
+      - 8000:8000
+    env_file:
+      - .env
+    environment:
+      - DEBUG=0
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672
+      - POSTGRES_HOST=db
+    networks:
+      - net
+  
+  celery:
+    build: .
+    command: sh -c "chmod -x /app/entrypoint-celery.sh && sh /app/entrypoint-celery.sh"
+    restart: always
+    depends_on:
+      - django-app
+    env_file:
+      - .env
+    environment:
+      - DEBUG=0
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672
+    networks:
+      - net
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - staticfiles:/app/staticfiles/
+    ports:
+      - 80:80
+    networks:
+      - net
+
+networks:
+  net:
+
+volumes:
+  staticfiles:
+  db:

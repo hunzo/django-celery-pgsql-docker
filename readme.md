@@ -1,0 +1,27 @@
+# django + celery + pgsql + docker
+## .envfile
+```
+DEBUG=1
+
+DJANGO_ALLOWED_HOSTS=* localhost 127.0.0.1
+DJANGO_SECRET_KEY=enter_your_django_secret_key
+DJANGO_SUPERUSER_USERNAME=admin
+DJANGO_SUPERUSER_PASSWORD=admin
+DJANGO_SUPERUSER_EMAIL=example@email.com
+
+CSRF_TRUSTED_ORIGINS=http://localhost
+
+
+POSTGRES_READY=0
+POSTGRES_DB=djangoDB
+POSTGRES_PASSWORD=pgPassword
+POSTGRES_USER=pgUser
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+
+DB_IGNORE_SSL=true
+DB_IS_AVAIL=True
+
+
+CELERY_BROKER_URL=amqp://guest:guest@localhost:5672
+```
