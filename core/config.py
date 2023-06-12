@@ -13,4 +13,6 @@ def init_config():
 
     dotenv.read_dotenv(str(ENV_FILE_PATH))
 
+    print("Load Config")
+
     # pprint(os.environ)
