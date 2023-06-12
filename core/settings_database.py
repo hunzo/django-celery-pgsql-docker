@@ -18,7 +18,7 @@ DB_IS_AVAIL = all([
 
 
 DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
-# POSTGRES_READY=str(os.environ.get('POSTGRES_READY')) == "1"
+POSTGRES_READY=str(os.environ.get('POSTGRES_READY')) == "1"
 
 print("init database: ")
 print("-"*100)
@@ -31,10 +31,10 @@ print(
     DB_PORT,
     DB_IS_AVAIL,
     DB_IGNORE_SSL,
-    # POSTGRES_READY
+    POSTGRES_READY
     )
 
-if DB_IS_AVAIL:
+if DB_IS_AVAIL and POSTGRES_READY:
     print("Using Postgres")
     DATABASES = {
         "default": {

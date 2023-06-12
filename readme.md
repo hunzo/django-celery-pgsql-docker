@@ -25,3 +25,17 @@ DB_IS_AVAIL=True
 
 CELERY_BROKER_URL=amqp://guest:guest@localhost:5672
 ```
+
+## Diagram
+```mermaid
+graph LR
+    C["Client"] --> N["nginx"]
+    N --> D["django-app"]
+
+    Ce["celery"] --> B["Broker"]
+    D --> B
+    subgraph app
+        D
+        Ce
+    end
+```

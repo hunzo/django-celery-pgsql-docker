@@ -33,14 +33,16 @@ services:
     command: sh -c "chmod -x /app/migrate.sh && sh /app/migrate.sh && sh /app/entrypoint.sh"
     volumes:
       - staticfiles:/app/staticfiles
-    ports:
-      - 8000:8000
+    expose:
+      - 8000 
     env_file:
       - .env
     environment:
       - DEBUG=0
+      - CSRF_TRUSTED_ORIGINS=http://localhost
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672
       - POSTGRES_HOST=db
+      - POSTGRES_READY=1
     networks:
       - net
   
@@ -53,8 +55,9 @@ services:
     env_file:
       - .env
     environment:
-      - DEBUG=0
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672
+      - POSTGRES_HOST=db
+      - POSTGRES_READY=1
     networks:
       - net
 
