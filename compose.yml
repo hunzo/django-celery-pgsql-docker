@@ -31,6 +31,9 @@ services:
   django-app:
     build: .
     command: sh -c "chmod -x /app/migrate.sh && sh /app/migrate.sh && sh /app/entrypoint.sh"
+    restart: always
+    depends_on:
+      - db
     volumes:
       - staticfiles:/app/staticfiles
     expose:
@@ -52,6 +55,8 @@ services:
     restart: always
     depends_on:
       - django-app
+      - db
+      - rabbitmq
     env_file:
       - .env
     environment:

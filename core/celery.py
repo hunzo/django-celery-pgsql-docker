@@ -1,15 +1,11 @@
 import os
 
 from celery import Celery
-from core.config import init_config
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 app = Celery('core')
-
-
-init_config()
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
