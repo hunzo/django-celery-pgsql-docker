@@ -6,7 +6,7 @@ billiard==3.6.4.0
 celery==5.2.7
 kombu==5.2.4
 ```
-## .envfile
+## Create file .env
 ```
 DEBUG=1
 
@@ -51,7 +51,7 @@ graph LR
 export POSGRES_READY=1
 ```
 
-## start celery
+## start celery debug
 ```
 celery -A core worker -l DEBUG
 ```
