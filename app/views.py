@@ -3,6 +3,8 @@ from django.contrib import messages
 
 from app.tasks import CeleryGetTask, Counter
 
+from celery.result import AsyncResult
+
 
 def Home(request):
 
@@ -33,22 +35,11 @@ def Home(request):
     return render(request, "index.html", context)
 
 
-from core.celery import my_revoke
 
 def CancelTask(request, task_id):
-    print(f"Task Cancel: {task_id}")
-    # task = Counter.AsyncResult(task_id).revoke(terminate=True)
-    # task = Counter.AsyncResult(task_id)
+    print(f"task Cancel id: {task_id}")
 
-    # app.task.control.revoke(task_id)
-    # task.revoke(terminate=True, signal='SIGKILL')
-    # task.abort()
+    AsyncResult(task_id).revoke(terminate=True)
 
-    # print(task.)
-
-    
-    # print(task)
-
-    my_revoke(task_id)
-    messages.error(request, "task revoke")
+    messages.error(request, f"task id: {task_id} has been revoke")
     return redirect('home')

@@ -24,9 +24,3 @@ app.autodiscover_tasks()
 @app.task(bind=True)
 def debug_task(self):
     print(f'Request: {self.request!r}')
-
-
-def my_revoke(task_id):
-    print("call my revoke")
-    print(task_id)
-    app.control.revoke(task_id, terminate=True, signal='SIGKILL')

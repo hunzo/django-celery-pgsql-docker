@@ -1,4 +1,11 @@
 # django + celery + pgsql + docker
+
+# verions
+```
+billiard==3.6.4.0
+celery==5.2.7
+kombu==5.2.4
+```
 ## .envfile
 ```
 DEBUG=1
@@ -38,4 +45,13 @@ graph LR
         D
         Ce
     end
+```
+
+```bash
+export POSGRES_READY=1
+```
+
+## start celery
+```
+celery -A core worker -l DEBUG
 ```
