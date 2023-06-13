@@ -9,6 +9,7 @@ from core.celery import app
 
 
 # @shared_task(bind=True, base=AbortableTask)
+# @shared_task(bind=True, ignore_result=True)
 @shared_task(bind=True)
 def Counter(self, counter):
 
